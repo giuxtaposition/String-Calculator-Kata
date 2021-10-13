@@ -18,4 +18,10 @@ describe('add numbers in string ', () => {
     const stringCalculator = new StringCalculator()
     expect(stringCalculator.add(string)).to.equal(1)
   })
+
+  it('two numbers', () => {
+    const string: string = '1,2'
+    const stringCalculator = new StringCalculator()
+    expect(stringCalculator.add(string)).to.equal(3)
+  })
 })
