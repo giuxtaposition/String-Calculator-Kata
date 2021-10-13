@@ -59,4 +59,12 @@ describe('add numbers in string ', () => {
       'negatives not allowed: -1'
     )
   })
+
+  it('throw error for multiple negative numbers', () => {
+    const string: string = '1,-4,-1'
+    const stringCalculator = new StringCalculator()
+    expect(stringCalculator.add.bind(stringCalculator, string)).to.throw(
+      'negatives not allowed: -4,-1'
+    )
+  })
 })

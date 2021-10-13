@@ -21,16 +21,6 @@ export class StringCalculator {
     return result
   }
 
-  private buildNumberArray(possibleNumber: string, array: number[]) {
-    if (!isNaN(parseInt(possibleNumber))) {
-      if (parseInt(possibleNumber) >= 0) {
-        array.push(parseInt(possibleNumber))
-      } else {
-        throw new Error(`negatives not allowed: ${possibleNumber}`)
-      }
-    }
-  }
-
   private extractNumbersWithCustomDelimiter(numbers: string) {
     let result: number[] = []
     numbers
@@ -41,6 +31,16 @@ export class StringCalculator {
       })
 
     return result
+  }
+
+  private buildNumberArray(possibleNumber: string, array: number[]) {
+    if (!isNaN(parseInt(possibleNumber))) {
+      if (parseInt(possibleNumber) >= 0) {
+        array.push(parseInt(possibleNumber))
+      } else {
+        throw new Error(`negatives not allowed: ${possibleNumber}`)
+      }
+    }
   }
 
   private hasCustomDelimiter(numbers: string) {
