@@ -15,30 +15,41 @@ export class StringCalculator {
 
   private extractNumbersWithDefaultDelimiter(numbers: string): number[] {
     let result: number[] = []
+    let errors: number[] = []
     numbers.split(/[, \n]/).forEach(possibleNumber => {
-      this.buildNumberArray(possibleNumber, result)
+      this.buildNumberArray(possibleNumber, result, errors)
     })
+    if (errors.length) {
+      throw new Error(`negatives not allowed: ${errors.toString()}`)
+    }
     return result
   }
 
   private extractNumbersWithCustomDelimiter(numbers: string) {
     let result: number[] = []
+    let errors: number[] = []
     numbers
       .substr(4)
       .split(new RegExp('(?<=//).*(?=\\n)').exec(numbers)![0])
       .forEach(possibleNumber => {
-        this.buildNumberArray(possibleNumber, result)
+        this.buildNumberArray(possibleNumber, result, errors)
       })
-
+    if (errors.length) {
+      throw new Error(`negatives not allowed: ${errors.toString()}`)
+    }
     return result
   }
 
-  private buildNumberArray(possibleNumber: string, array: number[]) {
+  private buildNumberArray(
+    possibleNumber: string,
+    array: number[],
+    errors: number[]
+  ) {
     if (!isNaN(parseInt(possibleNumber))) {
       if (parseInt(possibleNumber) >= 0) {
         array.push(parseInt(possibleNumber))
       } else {
-        throw new Error(`negatives not allowed: ${possibleNumber}`)
+        errors.push(parseInt(possibleNumber))
       }
     }
   }
