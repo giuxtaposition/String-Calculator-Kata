@@ -55,6 +55,8 @@ describe('add numbers in string ', () => {
   it('throw error for negative number', () => {
     const string: string = '1,4,-1'
     const stringCalculator = new StringCalculator()
-    expect(stringCalculator.add(string)).to.throw('negatives not allowed: -1')
+    expect(stringCalculator.add.bind(stringCalculator, string)).to.throw(
+      'negatives not allowed: -1'
+    )
   })
 })
