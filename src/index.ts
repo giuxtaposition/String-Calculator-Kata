@@ -7,31 +7,40 @@ export class StringCalculator {
     }
   }
 
-  extractNumbers(numbers: string): number[] {
-    let arrayOfNumbers: number[] = []
-
-    if (new RegExp('//.\\n.*').test(numbers)) {
-      const delimiter = new RegExp('(?<=//).*(?=\\n)').exec(numbers)![0]
-      numbers
-        .substr(4)
-        .split(delimiter)
-        .forEach(possibleNumber => {
-          if (!isNaN(parseInt(possibleNumber))) {
-            arrayOfNumbers.push(parseInt(possibleNumber))
-          }
-        })
-    } else {
-      numbers.split(/(?<=\d)[,; \n]+(?=\d)/).forEach(possibleNumber => {
-        if (!isNaN(parseInt(possibleNumber))) {
-          arrayOfNumbers.push(parseInt(possibleNumber))
-        }
-      })
-    }
-
-    return arrayOfNumbers
+  private extractNumbers(numbers: string): number[] {
+    return this.hasCustomDelimiter(numbers)
+      ? this.extractNumbersWithCustomDelimiter(numbers)
+      : this.extractNumbersWithDefaultDelimiter(numbers)
   }
 
-  sumNumbers(numbers: string): number {
+  private extractNumbersWithDefaultDelimiter(numbers: string): number[] {
+    let result: number[] = []
+    numbers.split(/(?<=\d)[, \n]+(?=\d)/).forEach(possibleNumber => {
+      if (!isNaN(parseInt(possibleNumber))) {
+        result.push(parseInt(possibleNumber))
+      }
+    })
+    return result
+  }
+
+  private extractNumbersWithCustomDelimiter(numbers: string) {
+    let result: number[] = []
+    numbers
+      .substr(4)
+      .split(new RegExp('(?<=//).*(?=\\n)').exec(numbers)![0])
+      .forEach(possibleNumber => {
+        if (!isNaN(parseInt(possibleNumber))) {
+          result.push(parseInt(possibleNumber))
+        }
+      })
+    return result
+  }
+
+  private hasCustomDelimiter(numbers: string) {
+    return new RegExp('//.\\n.*').test(numbers)
+  }
+
+  private sumNumbers(numbers: string): number {
     return this.extractNumbers(numbers).reduce(
       (previousValue: number, currentValue: number) =>
         previousValue + currentValue
