@@ -1,10 +1,14 @@
 import { expect } from 'chai'
 import { StringCalculator } from '../src/index'
 
-/*
-[] int add(String numbers)
-The string argument can contain 0, 1 or 2 numbers, and will return their sum (for an empty string it will return 0) for example "" or "1" or "1,2"
-*/
+// - [ ] int add(String numbers)
+// - [x] add with zero numbers
+// - [x] add with 1 number
+// - [x] add with 2 numbers
+// - [x] add with multiple numbers
+// - [x] extract numbers from string
+// - [x] sum numbers from array of numbers
+// - [ ] handle new lines between numbers
 
 describe('add numbers in string ', () => {
   it('no numbers', () => {
@@ -29,5 +33,13 @@ describe('add numbers in string ', () => {
     const string: string = '1,2,4,3'
     const stringCalculator = new StringCalculator()
     expect(stringCalculator.add(string)).to.equal(10)
+  })
+
+  it('multiple numbers with new lines', () => {
+    const string: string = '1\n2,3'
+    const otherString: string = '1,\n'
+    const stringCalculator = new StringCalculator()
+    expect(stringCalculator.add(string)).to.equal(6)
+    expect(stringCalculator.add(otherString)).to.equal(1)
   })
 })

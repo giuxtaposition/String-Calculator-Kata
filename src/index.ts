@@ -11,7 +11,7 @@ export class StringCalculator {
 
   extractNumbers(numbers: string): number[] {
     let arrayOfNumbers: number[] = []
-    numbers.split('').forEach(possibleNumber => {
+    Array.from(numbers).forEach(possibleNumber => {
       if (!isNaN(parseInt(possibleNumber))) {
         arrayOfNumbers.push(parseInt(possibleNumber))
       }
