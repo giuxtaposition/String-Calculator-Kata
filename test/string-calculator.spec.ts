@@ -10,8 +10,9 @@ import { StringCalculator } from '../src/index'
 // - [x] sum numbers from array of numbers
 // - [x] handle new lines between numbers
 // - [x] support different delimiters
-// - [ ] throw error for negative numbers
-// - [ ] if multiple negative numbers, show all of the in the exception message
+// - [x] throw error for negative numbers
+// - [x] if multiple negative numbers, show all of the in the exception message
+// - [ ] ignore big numbers
 
 describe('add numbers in string ', () => {
   it('no numbers', () => {
@@ -66,5 +67,11 @@ describe('add numbers in string ', () => {
     expect(stringCalculator.add.bind(stringCalculator, string)).to.throw(
       'negatives not allowed: -4,-1'
     )
+  })
+
+  it('ignore big numbers', () => {
+    const string: string = '1001, 2'
+    const stringCalculator = new StringCalculator()
+    expect(stringCalculator.add(string)).to.equal(2)
   })
 })
