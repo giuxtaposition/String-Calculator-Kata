@@ -9,7 +9,9 @@ import { StringCalculator } from '../src/index'
 // - [x] extract numbers from string
 // - [x] sum numbers from array of numbers
 // - [x] handle new lines between numbers
-// - [ ] support different delimiters
+// - [x] support different delimiters
+// - [ ] throw error for negative numbers
+// - [ ] if multiple negative numbers, show all of the in the exception message
 
 describe('add numbers in string ', () => {
   it('no numbers', () => {
@@ -48,5 +50,11 @@ describe('add numbers in string ', () => {
     const string: string = '//;\n1;23'
     const stringCalculator = new StringCalculator()
     expect(stringCalculator.add(string)).to.equal(24)
+  })
+
+  it('throw error for negative number', () => {
+    const string: string = '1,4,-1'
+    const stringCalculator = new StringCalculator()
+    expect(stringCalculator.add(string)).to.throw('negatives not allowed: -1')
   })
 })
