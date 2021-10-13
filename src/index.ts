@@ -9,11 +9,25 @@ export class StringCalculator {
 
   extractNumbers(numbers: string): number[] {
     let arrayOfNumbers: number[] = []
-    Array.from(numbers).forEach(possibleNumber => {
-      if (!isNaN(parseInt(possibleNumber))) {
-        arrayOfNumbers.push(parseInt(possibleNumber))
-      }
-    })
+
+    if (new RegExp('//.\\n.*').test(numbers)) {
+      const delimiter = new RegExp('(?<=//).*(?=\\n)').exec(numbers)![0]
+      numbers
+        .substr(4)
+        .split(delimiter)
+        .forEach(possibleNumber => {
+          if (!isNaN(parseInt(possibleNumber))) {
+            arrayOfNumbers.push(parseInt(possibleNumber))
+          }
+        })
+    } else {
+      numbers.split(/(?<=\d)[,; \n]+(?=\d)/).forEach(possibleNumber => {
+        if (!isNaN(parseInt(possibleNumber))) {
+          arrayOfNumbers.push(parseInt(possibleNumber))
+        }
+      })
+    }
+
     return arrayOfNumbers
   }
 

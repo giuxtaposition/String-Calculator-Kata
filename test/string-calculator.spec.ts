@@ -31,9 +31,9 @@ describe('add numbers in string ', () => {
   })
 
   it('multiple numbers', () => {
-    const string: string = '1,2,4,3'
+    const string: string = '10,2,4,3'
     const stringCalculator = new StringCalculator()
-    expect(stringCalculator.add(string)).to.equal(10)
+    expect(stringCalculator.add(string)).to.equal(19)
   })
 
   it('multiple numbers with new lines', () => {
