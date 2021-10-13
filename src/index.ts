@@ -5,7 +5,24 @@ export class StringCalculator {
     } else if (numbers.length === 1) {
       return parseInt(numbers)
     } else {
-      return parseInt(numbers[0]) + parseInt(numbers[2])
+      return this.sumNumbers(numbers)
     }
+  }
+
+  extractNumbers(numbers: string): number[] {
+    let arrayOfNumbers: number[] = []
+    numbers.split('').forEach(possibleNumber => {
+      if (!isNaN(parseInt(possibleNumber))) {
+        arrayOfNumbers.push(parseInt(possibleNumber))
+      }
+    })
+    return arrayOfNumbers
+  }
+
+  sumNumbers(numbers: string): number {
+    return this.extractNumbers(numbers).reduce(
+      (previousValue: number, currentValue: number) =>
+        previousValue + currentValue
+    )
   }
 }
