@@ -16,15 +16,19 @@ export class StringCalculator {
   private extractNumbersWithDefaultDelimiter(numbers: string): number[] {
     let result: number[] = []
     numbers.split(/[, \n]/).forEach(possibleNumber => {
-      if (!isNaN(parseInt(possibleNumber))) {
-        if (parseInt(possibleNumber) >= 0) {
-          result.push(parseInt(possibleNumber))
-        } else {
-          throw new Error(`negatives not allowed: ${possibleNumber}`)
-        }
-      }
+      this.buildNumberArray(possibleNumber, result)
     })
     return result
+  }
+
+  private buildNumberArray(possibleNumber: string, array: number[]) {
+    if (!isNaN(parseInt(possibleNumber))) {
+      if (parseInt(possibleNumber) >= 0) {
+        array.push(parseInt(possibleNumber))
+      } else {
+        throw new Error(`negatives not allowed: ${possibleNumber}`)
+      }
+    }
   }
 
   private extractNumbersWithCustomDelimiter(numbers: string) {
@@ -33,9 +37,7 @@ export class StringCalculator {
       .substr(4)
       .split(new RegExp('(?<=//).*(?=\\n)').exec(numbers)![0])
       .forEach(possibleNumber => {
-        if (!isNaN(parseInt(possibleNumber))) {
-          result.push(parseInt(possibleNumber))
-        }
+        this.buildNumberArray(possibleNumber, result)
       })
 
     return result
