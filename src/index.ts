@@ -4,14 +4,10 @@ export class StringCalculator {
     }
 
     private extractNumbers(numbers: string): number[] {
-        const result: number[] = []
-        const delimiter = this.getDelimiter(numbers)
-
-        this.removeDelimiter(numbers)
-            .split(delimiter)
-            .forEach(possibleNumber => {
-                this.buildNumberArray(possibleNumber, result)
-            })
+        const result = this.removeDelimiter(numbers)
+            .split(this.getDelimiter(numbers))
+            .map(possibleNumber => parseInt(possibleNumber))
+            .filter(number => number <= 1000)
 
         this.hasNegativeNumbers(result)
 
@@ -24,14 +20,6 @@ export class StringCalculator {
             throw new Error(
                 `negatives not allowed: ${negativeNumbers.toString()}`
             )
-        }
-    }
-
-    private buildNumberArray(possibleNumber: string, array: number[]) {
-        if (!isNaN(parseInt(possibleNumber))) {
-            if (parseInt(possibleNumber) <= 1000) {
-                array.push(parseInt(possibleNumber))
-            }
         }
     }
 
