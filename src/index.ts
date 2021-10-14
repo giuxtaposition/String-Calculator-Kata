@@ -1,45 +1,23 @@
 export class StringCalculator {
     add(numbers: string): number {
-        if (!numbers.length) {
-            return 0
-        } else {
-            return this.sumNumbers(numbers)
-        }
+        return !numbers.length ? 0 : this.sumNumbers(numbers)
     }
 
     private extractNumbers(numbers: string): number[] {
-        return this.hasCustomDelimiter(numbers)
-            ? this.extractNumbersWithCustomDelimiter(numbers)
-            : this.extractNumbersWithDefaultDelimiter(numbers)
-    }
-
-    private extractNumbersWithDefaultDelimiter(numbers: string): number[] {
         const result: number[] = []
         const errors: number[] = []
-        numbers.split(/[, \n]/).forEach(possibleNumber => {
-            this.buildNumberArray(possibleNumber, result, errors)
-        })
-        if (errors.length) {
-            throw new Error(`negatives not allowed: ${errors.toString()}`)
-        }
-        return result
-    }
+        const delimiter = this.getDelimiter(numbers)
 
-    private extractNumbersWithCustomDelimiter(numbers: string) {
-        const result: number[] = []
-        const errors: number[] = []
-        const delimiter =
-            new RegExp('(?<=//).*(?=\\n)').exec(numbers)?.[0] || ''
-
-        numbers
-            .substr(4)
+        this.removeDelimiter(numbers)
             .split(delimiter)
             .forEach(possibleNumber => {
                 this.buildNumberArray(possibleNumber, result, errors)
             })
+
         if (errors.length) {
             throw new Error(`negatives not allowed: ${errors.toString()}`)
         }
+
         return result
     }
 
@@ -59,6 +37,9 @@ export class StringCalculator {
         }
     }
 
+    private removeDelimiter(numbers: string): string {
+        return this.hasCustomDelimiter(numbers) ? numbers.substr(4) : numbers
+    }
     private hasCustomDelimiter(numbers: string) {
         return new RegExp('//.\\n.*').test(numbers)
     }
@@ -68,5 +49,9 @@ export class StringCalculator {
             (previousValue: number, currentValue: number) =>
                 previousValue + currentValue
         )
+    }
+
+    private getDelimiter(numbers: string): string | RegExp {
+        return new RegExp('(?<=//).*(?=\\n)').exec(numbers)?.[0] || /[, \n]/
     }
 }
