@@ -5,34 +5,32 @@ export class StringCalculator {
 
     private extractNumbers(numbers: string): number[] {
         const result: number[] = []
-        const errors: number[] = []
         const delimiter = this.getDelimiter(numbers)
 
         this.removeDelimiter(numbers)
             .split(delimiter)
             .forEach(possibleNumber => {
-                this.buildNumberArray(possibleNumber, result, errors)
+                this.buildNumberArray(possibleNumber, result)
             })
 
-        if (errors.length) {
-            throw new Error(`negatives not allowed: ${errors.toString()}`)
-        }
+        this.hasNegativeNumbers(result)
 
         return result
     }
 
-    private buildNumberArray(
-        possibleNumber: string,
-        array: number[],
-        errors: number[]
-    ) {
+    private hasNegativeNumbers(result: number[]) {
+        const negativeNumbers = result.filter(number => number <= 0)
+        if (negativeNumbers.length) {
+            throw new Error(
+                `negatives not allowed: ${negativeNumbers.toString()}`
+            )
+        }
+    }
+
+    private buildNumberArray(possibleNumber: string, array: number[]) {
         if (!isNaN(parseInt(possibleNumber))) {
-            if (parseInt(possibleNumber) >= 0) {
-                if (parseInt(possibleNumber) <= 1000) {
-                    array.push(parseInt(possibleNumber))
-                }
-            } else {
-                errors.push(parseInt(possibleNumber))
+            if (parseInt(possibleNumber) <= 1000) {
+                array.push(parseInt(possibleNumber))
             }
         }
     }
